@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>toDoList</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>toDoList</header>
+    <div id="app">
+      <h2>Yapılacaklar Listesi</h2>
+      <hr />
+      <div class="orta">
+        <input
+          id="girilenDeger"
+          type="text"
+          v-model="girilenDeger"
+          v-on:keypress.enter="ekle"
+        />
+        <button id="ekle" class="btn" @click="ekle" style="padding: 10px">
+          Ekle
+        </button>
+      </div>
+
+      <p v-if="toDos.length == 0">
+        Yapılacaklar listesi boş, eklemek için başlayınız
+      </p>
+      <ul>
+        <li v-for="(toDo , index) in toDos" :class="{'ciz': toDo.done}">
+          {{ toDo.title }}
+          <div class="rightSide">
+            <input
+              type="checkbox"
+              @click="ciz(index)"
+              id="chckbx"
+              :checked="toDo.done"
+            />
+
+            <button class="btn" @click="sil(index)">X</button>
+          </div>
+        </li>
+      </ul>
+      <p v-if="isThereWarn">{{ warning }}</p>
+      <hr />
+      <div class="bottomButtons">
+        <button
+          id="btnDel"
+          class="btn"
+          v-if="toDos.length > 1"
+          @click="toDos = []"
+        >
+          Tümünü Sil
+        </button>
+        <button
+          class="btn"
+          v-if="toDos.length > 1"
+          @click="secilenleriSil"
+          style="padding: 10px"
+        >
+          Seçilenleri Sil
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
